@@ -12,8 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import googleicon from "../../assets/google-icon.png"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate()
+
     const Copyright = (props) => {
         return (
             <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -117,7 +120,7 @@ const Login = () => {
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
+                                    <Link sx={{ cursor:"pointer" }} variant="body2" onClick={() => navigate("/register")}>
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
