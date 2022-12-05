@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../authentication/firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import { registerInformations } from '../../redux/features/registerSlice';
+import { registerInformations, afterRegister } from '../../redux/features/registerSlice';
 import { useState } from 'react';
 
 const Register = () => {
@@ -69,10 +69,12 @@ const Register = () => {
             await updateProfile(auth.currentUser,{
             displayName:`${firstName} ${lastName}`
           })
+          dispatch(afterRegister())
           alert("Registration Successful!")
           console.log(user);
           } catch(error) {
             console.log(error.message)
+            dispatch(afterRegister())
             alert("Already registered with this email address!")
           }
         }
