@@ -12,9 +12,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../../authentication/firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Register = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { firstName, lastName, email, password } = useSelector((state) => state.registerInfo)
 
     function Copyright(props) {
         return (
@@ -39,6 +45,8 @@ const Register = () => {
           password: data.get('password'),
         });
       };
+
+      console.log(email)
 
   return (
     <ThemeProvider theme={theme}>
