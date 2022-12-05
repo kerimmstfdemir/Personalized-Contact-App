@@ -12,10 +12,10 @@ const registerSlice = createSlice({
     initialState: initialStates,
     reducers: {
         registerInformations: (state, action) => {
-            state.firstName = action.firstName
-            state.lastName = action.lastName
-            state.email = action.email
-            state.password = action.password
+            state.firstName = action.payload.firstName
+            state.lastName = action.payload.lastName
+            state.email = action.payload.email
+            state.password = action.payload.password
         },
         afterRegister: (state) => {
             state = initialStates;

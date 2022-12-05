@@ -12,8 +12,8 @@ const loginSlice = createSlice({
     reducers :{
         loginSuccess: (state, action) => {
             state.loginInformation = true;
-            state.email = action.payload;
-            state.password = action.password;  //?  if not get, use payload
+            state.email = action.payload.email;
+            state.password = action.payload.password;
         },
         loginUnsuccess: (state) => {
             state = initialStates;

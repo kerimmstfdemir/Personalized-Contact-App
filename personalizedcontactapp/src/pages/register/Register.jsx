@@ -15,12 +15,18 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../authentication/firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
+import { registerInformations } from '../../redux/features/registerSlice';
+import { useState } from 'react';
 
 const Register = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { firstName, lastName, email, password } = useSelector((state) => state.registerInfo)
+    const registerInfo = useSelector((state) => state.registerInfo)
+    const { firstName, lastName, email, password } = registerInfo;
+
+    const [emailError, setEmailError] = useState(false)
+    const [passwordError, setPasswordError] = useState(false)
 
     function Copyright(props) {
         return (
@@ -37,16 +43,40 @@ const Register = () => {
 
       const theme = createTheme();
 
-      const handleSubmit = (event) => {
+      const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-        });
-      };
+        const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-      console.log(email)
+        //? email format check
+        if(email.match(reg)) {
+          setEmailError(false)
+        }else {
+          setEmailError(true)
+          alert("Invalid email format!!")
+        } 
+
+        //? password length check
+        if(password.toString().length < 6){
+          setPasswordError(true)
+          alert("Please enter a password at least 6 character!!")
+        }else{
+          setPasswordError(false)
+        }
+
+        if(!emailError && !passwordError) {
+          try {
+            const user = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(auth.currentUser,{
+            displayName:`${firstName} ${lastName}`
+          })
+          alert("Registration Successful!")
+          console.log(user);
+          } catch(error) {
+            console.log(error.message)
+            alert("Already registered with this email address!")
+          }
+        }
+      };
 
   return (
     <ThemeProvider theme={theme}>
@@ -77,6 +107,7 @@ const Register = () => {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={(e)=>dispatch(registerInformations({...registerInfo, firstName:e.target.value}))}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -87,6 +118,7 @@ const Register = () => {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={(e) => dispatch(registerInformations({...registerInfo, lastName:e.target.value}))}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -97,6 +129,7 @@ const Register = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => dispatch(registerInformations({...registerInfo, email:e.target.value}))}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -108,6 +141,7 @@ const Register = () => {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(e) => dispatch(registerInformations({...registerInfo, password:e.target.value}))}
                 />
               </Grid>
               <Grid item xs={12}>
