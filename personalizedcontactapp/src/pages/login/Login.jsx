@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import googleicon from "../../assets/google-icon.png"
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../authentication/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { loginInfos, loginSuccess } from "../../redux/features/loginInfoSlice";
@@ -27,7 +27,9 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState(false)
 
     const loginInfo = useSelector((state) => state.loginInfo)
-    const { loginInformation, email, password } = loginInfo
+    const { email:emailAdress, password } = loginInfo
+
+    const providerGoogle = new GoogleAuthProvider();
 
     const Copyright = (props) => {
         return (
@@ -49,7 +51,7 @@ const Login = () => {
         const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         //? email format check
-        if(email.match(reg)) {
+        if(emailAdress.match(reg)) {
           setEmailError(false)
         }else {
           setEmailError(true)
@@ -66,16 +68,31 @@ const Login = () => {
 
         if(!emailError && !passwordError) {
             try{
-                const user = await signInWithEmailAndPassword(auth, email, password)
-                dispatch(loginSuccess({...loginInfo, userInfo:user}))
+                const { user } = await signInWithEmailAndPassword(auth, emailAdress, password)
+                const { email, displayName } = user
+                dispatch(loginSuccess({...loginInfo, userInfo:{email, displayName}}))
+                console.log(user);
                 navigate("/home")
                 alert("Logged in successfully!")
             }catch(error) {
                 console.log(error.message)
-                alert("User not found!")
+                alert("Login failed!")
             }
         }
     };
+
+    const signInWithGoogle = () => {
+        signInWithPopup(auth, providerGoogle)
+          .then((result) => {
+            const { email, displayName, photoURL } = result.user
+            const user = {email, displayName, photoURL}
+            dispatch(loginSuccess({...loginInfo, userInfo:user}))
+            navigate("/home")
+            alert("Successfully logged in with Google!")
+          })
+    }
+
+    console.log(loginInfo)
 
     return (
         <ThemeProvider theme={theme}>
@@ -146,7 +163,7 @@ const Login = () => {
                             >
                                 Sign In
                             </Button>
-                            <Button sx={{ width: "100%", textTransform: "initial", gap: "1rem" }} variant="contained" >
+                            <Button sx={{ width: "100%", textTransform: "initial", gap: "1rem" }} variant="contained" onClick={signInWithGoogle} >
                                 <div style={{ height: "1.8rem", gap: "0.5rem", alignItems: "center !important" }} className="d-flex flex-row justify-content-center">
                                     <img style={{ width: "1.5rem", height: "1.5rem" }} src={googleicon} alt="google-icon" />
                                     <p style={{ fontSize: "medium" }}>Continue with Google</p>
