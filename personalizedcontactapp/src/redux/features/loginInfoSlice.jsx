@@ -18,6 +18,7 @@ const loginSlice = createSlice({
         loginSuccess:(state, action) => {
             state.loginInformation = true
             state.userInfo = action.payload.userInfo
+            state.email = action.payload.email
             delete state.password
         },
         loginUnsuccess: (state) => {

@@ -70,7 +70,7 @@ const Login = () => {
             try{
                 const { user } = await signInWithEmailAndPassword(auth, emailAdress, password)
                 const { email, displayName } = user
-                dispatch(loginSuccess({...loginInfo, userInfo:{email, displayName}}))
+                dispatch(loginSuccess({...loginInfo, userInfo:{displayName}, email:email}))
                 console.log(user);
                 navigate("/home")
                 alert("Logged in successfully!")
@@ -85,8 +85,7 @@ const Login = () => {
         signInWithPopup(auth, providerGoogle)
           .then((result) => {
             const { email, displayName, photoURL } = result.user
-            const user = {email, displayName, photoURL}
-            dispatch(loginSuccess({...loginInfo, userInfo:user}))
+            dispatch(loginSuccess({...loginInfo, userInfo:{displayName, photoURL}, email:email}))
             navigate("/home")
             alert("Successfully logged in with Google!")
           })
