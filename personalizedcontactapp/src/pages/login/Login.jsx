@@ -13,9 +13,21 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import googleicon from "../../assets/google-icon.png"
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../authentication/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { loginInfos, loginSuccess } from "../../redux/features/loginInfoSlice";
 
 const Login = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [emailError, setEmailError] = useState(false)
+    const [passwordError, setPasswordError] = useState(false)
+
+    const loginInfo = useSelector((state) => state.loginInfo)
+    const { loginInformation, email, password } = loginInfo
 
     const Copyright = (props) => {
         return (
@@ -32,14 +44,39 @@ const Login = () => {
 
     const theme = createTheme();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        //? email format check
+        if(email.match(reg)) {
+          setEmailError(false)
+        }else {
+          setEmailError(true)
+          alert("Invalid email format!!")
+        } 
+
+        //? password length check
+        if(password.toString().length < 6){
+          setPasswordError(true)
+          alert("Please enter a password at least 6 character!!")
+        }else{
+          setPasswordError(false)
+        }
+
+        if(!emailError && !passwordError) {
+            try{
+                const user = await signInWithEmailAndPassword(auth, email, password)
+                dispatch(loginSuccess({...loginInfo, userInfo:user}))
+                navigate("/home")
+                alert("Logged in successfully!")
+            }catch(error) {
+                console.log(error.message)
+                alert("User not found!")
+            }
+        }
     };
+
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -84,6 +121,7 @@ const Login = () => {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
+                                onChange={(e) => {dispatch(loginInfos({...loginInfo, email:e.target.value}))}}
                             />
                             <TextField
                                 margin="normal"
@@ -94,6 +132,7 @@ const Login = () => {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                onChange={(e) => {dispatch(loginInfos({...loginInfo, password:e.target.value}))}}
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}

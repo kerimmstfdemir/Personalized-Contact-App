@@ -71,7 +71,7 @@ const Register = () => {
           })
           dispatch(afterRegister())
           alert("Registration Successful!")
-          console.log(user);
+          navigate("/")
           } catch(error) {
             console.log(error.message)
             dispatch(afterRegister())

@@ -1,6 +1,14 @@
+import { useSelector } from "react-redux"
+import { Navigate, Outlet } from "react-router-dom"
+
 const PrivateRouter = () => {
+  const { loginInformation } = useSelector((state) => state.loginInfo)
+
+  console.log(loginInformation);
   return (
-    <div>PrivateRouter</div>
+    <div>
+      {loginInformation ? <Outlet /> : <Navigate to="/"/>}
+    </div>
   )
 }
 
