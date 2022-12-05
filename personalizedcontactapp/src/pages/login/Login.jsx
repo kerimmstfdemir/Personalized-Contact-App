@@ -18,6 +18,7 @@ import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { loginInfos, loginSuccess } from "../../redux/features/loginInfoSlice";
+import ForgotPassword from "./ForgotPassword";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -94,6 +95,7 @@ const Login = () => {
     console.log(loginInfo)
 
     return (
+        <>
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
@@ -170,7 +172,7 @@ const Login = () => {
                             </Button>
                             <Grid className="mt-2" container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <Link variant="body2" data-bs-toggle="modal" data-bs-target="#forgotPassword">
                                         Forgot password?
                                     </Link>
                                 </Grid>
@@ -186,6 +188,8 @@ const Login = () => {
                 </Grid>
             </Grid>
         </ThemeProvider>
+        <ForgotPassword />
+        </>
     )
 };
 
