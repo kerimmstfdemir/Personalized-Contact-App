@@ -1,12 +1,13 @@
 import Form from "../../components/Form"
 import Table from "../../components/Table"
+import { HomeStyledDiv } from "./Home.styled"
 
 const Home = () => {
   return (
-    <div>
+    <HomeStyledDiv>
         <Form />
         <Table />
-    </div>
+    </HomeStyledDiv>
   )
 }
 
