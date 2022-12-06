@@ -11,6 +11,7 @@ import EditTableData from "./EditTableData";
 const Table = () => {
   const { userInfo } = useSelector((state) => state.loginInfo)
   const [contactList, setContactList] = useState([""])
+  const [editInfos, setEditInfos] = useState({})
 
   useEffect(()=>{
     const database = getDatabase(app);
@@ -26,8 +27,6 @@ const Table = () => {
       setContactList(contactArray)
     })
   },[])
-
-  console.log(contactList)
 
   return (
     <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
@@ -57,6 +56,10 @@ const Table = () => {
                   }
                 }
 
+                const handleEditButton = () => {
+                  setEditInfos({name, id, gender, phoneNumber})
+                }
+
                 return(
                     <tbody>
                         <tr>
@@ -64,14 +67,14 @@ const Table = () => {
                             <td>{phoneNumber}</td>
                             <td>{gender}</td>
                             <td><DeleteIcon style={{color:"#A62B1F", cursor:"pointer"}} onClick={() => handleDeleteContact(id)}/></td>
-                            <td><BorderColorIcon data-bs-toggle="modal" data-bs-target="#editData" style={{color:"gray", cursor:"pointer"}} /></td>
+                            <td><BorderColorIcon data-bs-toggle="modal" data-bs-target="#editData" style={{color:"gray", cursor:"pointer"}} onClick={handleEditButton}/></td>
                         </tr>
                     </tbody>
                 )
             }))}
         </table>
     </TableStyledIncludingDiv>
-    <EditTableData />
+    <EditTableData editInfos={editInfos} setEditInfos={setEditInfos} />
     </div>
   )
 }
