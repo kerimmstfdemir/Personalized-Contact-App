@@ -4,12 +4,14 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import PrivateRouter from './router/PrivateRouter';
-import { Provider } from "react-redux"
-import store from './redux/app/store';
+import Appbar from './components/Appbar';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const { loginInformation } = useSelector((state) => state.loginInfo)
   return (
-    <Provider store={store}>
+    <>
+      {loginInformation && <Appbar />}
       <Routes>
           <Route  path="/" element={<Login />}/>
           <Route path="/register" element={<Register />} />
@@ -17,7 +19,7 @@ function App() {
             <Route path="" element={<Home />}/>
           </Route>
       </Routes>
-    </Provider>
+      </>
   );
 }
 
