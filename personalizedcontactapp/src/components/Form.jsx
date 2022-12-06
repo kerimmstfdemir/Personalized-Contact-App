@@ -47,6 +47,9 @@ const Form = () => {
           phoneNumber:phoneNumber,
           gender:gender
         })
+        setName("");
+        setPhoneNumber("")
+        setGender("Male")
         alert("Contact added!")
       } catch(error) {
         console.log(error);
@@ -66,6 +69,7 @@ const Form = () => {
           name="text"
           type="text" 
           label="Name"
+          value={name}
           variant="standard" InputLabelProps={{style:{color:"white"}}} 
           inputProps={{style:{color:"white"}}}
           onChange={(e) => setName(e.target.value)}/>
@@ -75,6 +79,7 @@ const Form = () => {
           <TextField
             type="tel"
             label="Phone Number"
+            value={phoneNumber}
             variant="standard"
             InputLabelProps={{style:{color:"white"}}}
             sx={{input:{color:"white"}}}
