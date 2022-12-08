@@ -13,6 +13,19 @@ export const successNotify = (msg) => {
         });
 }
 
+export const errorNotify = (msg) => {
+    toast.error(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+}
+
 export const errorNotifyLogin = (msg) => {
     toast.error(msg, {
         position: "top-left",

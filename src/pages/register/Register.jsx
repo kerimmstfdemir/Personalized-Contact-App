@@ -17,6 +17,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerInformations, afterRegister } from '../../redux/features/registerSlice';
 import { useState } from 'react';
+import { successNotify, warningNotify, errorNotify } from '../../notifies/ToastifyNotifies';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -52,30 +53,32 @@ const Register = () => {
           setEmailError(false)
         }else {
           setEmailError(true)
-          alert("Invalid email format!!")
+          warningNotify("Invalid email format!")
         } 
 
         //? password length check
         if(password.toString().length < 6){
           setPasswordError(true)
-          alert("Please enter a password at least 6 character!!")
+          warningNotify("Please enter a password at least 6 character!")
         }else{
           setPasswordError(false)
         }
 
         if(!emailError && !passwordError) {
           try {
-            const user = await createUserWithEmailAndPassword(auth, email, password);
+            await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(auth.currentUser,{
             displayName:`${firstName} ${lastName}`
           })
           dispatch(afterRegister())
-          alert("Registration Successful!")
+          successNotify("Registration Successful!")
           navigate("/")
           } catch(error) {
-            console.log(error.message)
+            if (error.message.indexOf("auth/email-already-in-use") >= 0) {
+              warningNotify("Already registered with this email!")
+            }
             dispatch(afterRegister())
-            alert("Already registered with this email address!")
+            errorNotify("Registration failed!")
           }
         }
       };
@@ -140,6 +143,7 @@ const Register = () => {
                   fullWidth
                   name="password"
                   label="Password"
+                  value={password}
                   type="password"
                   id="password"
                   autoComplete="new-password"
