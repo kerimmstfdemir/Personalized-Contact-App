@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { auth } from "../../authentication/firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { warningNotify, successNotify } from "../../notifies/ToastifyNotifies";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("")
@@ -13,13 +14,15 @@ const ForgotPassword = () => {
           setEmailError(false)
         }else {
           setEmailError(true)
-          alert("Invalid email format!!")
+          setEmail("")
+          warningNotify("Invalid email format!")
         }
 
         if(!emailError) {
             sendPasswordResetEmail(auth, email)
               .then(() => {
-                alert("Please check your mailbox!")
+                setEmail("")
+                successNotify("Please check your mailbox!")
               })
               .catch((error) => {
                 console.log(error.message);
@@ -40,7 +43,7 @@ const ForgotPassword = () => {
             <form>
         <div className="form-group">
           <label className="mb-2" htmlFor="exampleInputEmail1">Email : </label>
-          <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email..." onChange={(e) => setEmail(e.target.value)}/>
+          <input type="email" value={email} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email..." onChange={(e) => setEmail(e.target.value)}/>
         </div>
       </form>
             </div>

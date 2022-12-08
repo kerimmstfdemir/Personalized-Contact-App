@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { loginInfos, loginSuccess } from "../../redux/features/loginInfoSlice";
 import ForgotPassword from "./ForgotPassword";
+import { successNotify, errorNotifyLogin, warningNotify } from "../../notifies/ToastifyNotifies";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -56,13 +57,13 @@ const Login = () => {
           setEmailError(false)
         }else {
           setEmailError(true)
-          alert("Invalid email format!!")
+          warningNotify("Invalid email format!")
         } 
 
         //? password length check
         if(password.toString().length < 6){
           setPasswordError(true)
-          alert("Please enter a password at least 6 character!!")
+          warningNotify("Please enter a password at least 6 character!")
         }else{
           setPasswordError(false)
         }
@@ -74,10 +75,10 @@ const Login = () => {
                 const { email, displayName, uid } = user
                 dispatch(loginSuccess({...loginInfo, userInfo:{displayName, uid}, email:email}))
                 navigate("/home")
-                alert("Logged in successfully!")
+                successNotify("Logged in successfully!")
             }catch(error) {
                 console.log(error.message)
-                alert("Login failed!")
+                errorNotifyLogin("Login failed!")
             }
         }
     };
