@@ -89,11 +89,9 @@ const Login = () => {
             const { email, displayName, photoURL, uid } = result.user
             dispatch(loginSuccess({...loginInfo, userInfo:{displayName, photoURL, uid}, email:email}))
             navigate("/home")
-            alert("Successfully logged in with Google!")
+            successNotify("Successfully logged in with Google!")
           })
     }
-
-    console.log(loginInfo)
 
     return (
         <>

@@ -1,19 +1,28 @@
 import { getDatabase, ref, update } from "firebase/database";
 import app from "../authentication/firebase";
 import { useSelector } from "react-redux";
+import { successNotify, warningNotify } from "../notifies/ToastifyNotifies";
 
 const EditTableData = ({ editInfos, setEditInfos }) => {
     const { id, name, gender, phoneNumber } = editInfos;
     const {userInfo} = useSelector((state) => state.loginInfo)
 
     const handleUpdateButton = (editInfos) => {
-        try {
-            const database = getDatabase(app);
-            const dataRef = ref(database, `${userInfo.uid}/contacts/${id}`)
-            update(dataRef, editInfos)
-            alert("Successfully Updated!")
-        } catch(error) {
-            console.log(error.message)
+        if(!name) {
+            warningNotify("Name cannot be left blank!")
+        }
+        if(!phoneNumber) {
+            warningNotify("Phone number cannot be left blank!")
+          }
+        if(name && phoneNumber){
+            try {
+                const database = getDatabase(app);
+                const dataRef = ref(database, `${userInfo.uid}/contacts/${id}`)
+                update(dataRef, editInfos)
+                successNotify("Successfully Updated!")
+            } catch(error) {
+                console.log(error.message)
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import { useState } from "react";
 import { getDatabase, ref, set, push } from "firebase/database"
 import { useSelector } from "react-redux";
 import app from "../authentication/firebase";
+import { warningNotify, successNotify } from "../notifies/ToastifyNotifies";
 
 const Form = () => {
   const [name, setName] = useState("");
@@ -38,6 +39,12 @@ const Form = () => {
   };
 
   const addUserButton = () => {
+    if (!name) {
+      warningNotify("Name information is blank!")
+    }
+    if(!phoneNumber) {
+      warningNotify("Phone number information is blank!")
+    }
     if (name && phoneNumber) {
       try {
         const database = getDatabase(app);
@@ -50,7 +57,7 @@ const Form = () => {
         setName("");
         setPhoneNumber("")
         setGender("Male")
-        alert("Contact added!")
+        successNotify("Contact added!")
       } catch(error) {
         console.log(error);
       }

@@ -51,3 +51,16 @@ export const warningNotify = (msg) => {
         theme: "light",
         });
 }
+
+export const infoNotify = (msg) => {
+    toast.info(msg, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+}

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import EditTableData from "./EditTableData";
+import { infoNotify } from "../notifies/ToastifyNotifies";
 
 const Table = () => {
   const { userInfo } = useSelector((state) => state.loginInfo)
@@ -50,7 +51,7 @@ const Table = () => {
                     const database = getDatabase();
                     const contactRef = ref(database, `${userInfo.uid}/contacts/${id}`)
                     remove(contactRef)
-                    alert("Deleted Contact!")
+                    infoNotify("Deleted Contact!")
                   }catch(error){
                     console.log(error.message);
                   }

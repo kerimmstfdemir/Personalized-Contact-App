@@ -9,6 +9,7 @@ import { auth } from '../authentication/firebase';
 import { logout } from "../redux/features/loginInfoSlice";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { successNotify } from '../notifies/ToastifyNotifies';
 
 const Appbar = () => {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const Appbar = () => {
             await signOut(auth);
             dispatch(logout());
             navigate("/")
-            alert("Logged out successfully!")
+            successNotify("Logged out successfully!")
         }catch(error) {
             console.log(error.message);
         }
