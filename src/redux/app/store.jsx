@@ -1,4 +1,3 @@
-import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "../features/loginInfoSlice";
 import registerReducer from "../features/registerSlice"
 import thunk from "redux-thunk"
