@@ -37,8 +37,8 @@ const Login = () => {
         return (
             <Typography variant="body2" color="text.secondary" align="center" {...props}>
                 {'Copyright © '}
-                <Link color="inherit" href="https://mui.com/">
-                    Your Website
+                <Link color="inherit" href="https://github.com/kerimmstfdemir" target="_blank">
+                    Kerim Mustafa Demir
                 </Link>{' '}
                 {new Date().getFullYear()}
                 {'.'}
