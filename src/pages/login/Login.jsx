@@ -123,8 +123,8 @@ const Login = () => {
                             alignItems: 'center',
                         }}
                     >
-                        <div className="d-flex align-items-center mt-4 mb-5" style={{gap:"0.7rem"}}>
-                            <ContactsIcon style={{fontSize:"2.5rem"}}/>
+                        <div className="d-flex align-items-center mt-4 mb-4" style={{gap:"0.7rem", border:"17px solid #1565c0", borderRadius:"20px", padding:"1.4rem"}}>
+                            <ContactsIcon style={{fontSize:"2.5rem", color:"#3C5473"}}/>
                             <Typography component="h1" variant="h4">
                             Contact App
                             </Typography>
