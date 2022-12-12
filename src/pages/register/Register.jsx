@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../authentication/firebase';
@@ -95,6 +96,12 @@ const Register = () => {
             alignItems: 'center',
           }}
         >
+          <div className="d-flex align-items-center mt-4 mb-5" style={{gap:"0.7rem"}}>
+                            <ContactsIcon style={{fontSize:"2.5rem"}}/>
+                            <Typography component="h1" variant="h4">
+                            Contact App
+                            </Typography>
+                        </div>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -165,7 +172,7 @@ const Register = () => {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link sx={{ cursor:"pointer" }} variant="body2" onClick={() => navigate("/")}>
                   Already have an account? Sign in

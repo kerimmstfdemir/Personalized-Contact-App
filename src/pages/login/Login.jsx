@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import googleicon from "../../assets/google-icon.png"
+import ContactsIcon from '@mui/icons-material/Contacts';
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../authentication/firebase";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -122,6 +123,12 @@ const Login = () => {
                             alignItems: 'center',
                         }}
                     >
+                        <div className="d-flex align-items-center mt-4 mb-5" style={{gap:"0.7rem"}}>
+                            <ContactsIcon style={{fontSize:"2.5rem"}}/>
+                            <Typography component="h1" variant="h4">
+                            Contact App
+                            </Typography>
+                        </div>
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <LockOutlinedIcon />
                         </Avatar>
