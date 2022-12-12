@@ -27,7 +27,7 @@ const Table = () => {
       }
       setContactList(contactArray)
     })
-  },[])
+  })
 
   return (
     <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
